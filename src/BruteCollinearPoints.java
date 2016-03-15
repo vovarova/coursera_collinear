@@ -3,7 +3,17 @@ import java.util.Arrays;
 public class BruteCollinearPoints {
 
     public BruteCollinearPoints(Point[] points){
-        Arrays.sort(points);
+        if(points==null){
+            throw new NullPointerException();
+        }
+        Arrays.sort(points, (p1, p2) -> {
+            int res = p1.compareTo(p2);
+            if (res ==0){
+                throw new IllegalArgumentException ();
+            }
+            return res;
+        });
+
 
 
 
