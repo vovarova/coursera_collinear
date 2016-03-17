@@ -18,7 +18,7 @@ public class BruteCollinearPoints {
         Point point = points[0];
         Comparator<Point> pointComparator = point.slopeOrder();
         Comparator<Point> modifiedComparator = (p1, p2) -> {
-            if (p1.compareTo(p2)==0){
+            if (p1.compareTo(p2) == 0) {
                 throw new IllegalStateException();
             }
             return pointComparator.compare(p1, p2);
@@ -50,14 +50,14 @@ public class BruteCollinearPoints {
         for (int i = 1; i < points.length; i++) {
             Point point = points[i];
             double nSlop = basePoint.slopeTo(point);
-
-
-            if (Double.compare(slop, nSlop) == 0 || Double.compare(slop, initialSlop) == 0) {
+            boolean compare = Double.compare(slop, nSlop) == 0 || Double.compare(slop, initialSlop) == 0;
+            if (compare) {
                 counter++;
-            } else {
-                if (counter >= 2) {
+            }
+            if (!compare || i == points.length - 1) {
+                if (counter >= 3) {
                     Point second = points[i - 1];
-                   if (basePoint.compareTo(first) < 0) {
+                    if (basePoint.compareTo(first) < 0) {
                         first = basePoint;
                     }
                     if (basePoint.compareTo(second) > 0) {
@@ -69,22 +69,10 @@ public class BruteCollinearPoints {
             }
             if (counter == 1) {
                 first = point;
-                i = i + 1;
-            }
-            if (i == points.length-1) {
-                if (counter >= 2) {
-                    Point second = points[i - 1];
-                   /*if (basePoint.compareTo(first) < 0) {
-                        first = basePoint;
-                    }
-                    if (basePoint.compareTo(second) > 0) {
-                        second = basePoint;
-                    }*/
-                    addSegments(new LineSegment(first, second));
-                }
             }
             slop = nSlop;
         }
+
     }
 
     private void addSegments(LineSegment segment) {
@@ -93,7 +81,7 @@ public class BruteCollinearPoints {
     }
 
     private void trimSegments() {
-        if(segments == null) return;
+        if (segments == null) return;
         if (segments.length > numberOfSegments) {
             resize(numberOfSegments);
         }
@@ -110,7 +98,7 @@ public class BruteCollinearPoints {
 
     public static void main(String[] args) {
         // read the N points from a file
-        In in = new In("D:/collinear/input6.txt");
+        In in = new In("D:/collinear/input20.txt");
         int N = in.readInt();
         Point[] points = new Point[N];
         for (int i = 0; i < N; i++) {
@@ -120,7 +108,7 @@ public class BruteCollinearPoints {
         }
 
         // draw the points
-        StdDraw.setPenRadius(.06);
+        //StdDraw.setPenRadius(.06);
         StdDraw.show(0);
         StdDraw.setXscale(0, 32768);
         StdDraw.setYscale(0, 32768);
@@ -129,12 +117,12 @@ public class BruteCollinearPoints {
             p.draw();
         }
         StdDraw.show();
-        StdDraw.setPenRadius(.01);
+        //StdDraw.setPenRadius(.01);
         // print and draw the line segments
         BruteCollinearPoints collinear = new BruteCollinearPoints(points);
         for (LineSegment segment : collinear.segments()) {
             StdOut.println(segment);
-               segment.draw();
+            segment.draw();
         }
     }
 }

@@ -65,7 +65,7 @@ public class Point implements Comparable<Point> {
         if(xres == 0 && yrez == 0) return Double.NEGATIVE_INFINITY;
         if(yrez == 0) return 0;
         if(xres == 0) return Double.POSITIVE_INFINITY;
-        return  yrez / xres;
+        return   yrez / (double)xres;
     }
 
     /**
