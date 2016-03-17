@@ -60,8 +60,8 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        int xres = x - that.x;
-        int yrez = y - that.y;
+        int xres = that.x-x ;
+        int yrez = that.y-y ;
         if(xres == 0 && yrez == 0) return Double.NEGATIVE_INFINITY;
         if(yrez == 0) return 0;
         if(xres == 0) return Double.POSITIVE_INFINITY;
@@ -101,7 +101,11 @@ public class Point implements Comparable<Point> {
 
         @Override
         public int compare(Point o1, Point o2) {
-            return Double.compare(Point.this.slopeTo(o1),Point.this.slopeTo(o2));
+            int compare = Double.compare(Point.this.slopeTo(o1), Point.this.slopeTo(o2));
+            if(compare == 0){
+                compare = o1.compareTo(o2);
+            }
+            return compare;
         }
     }
 
